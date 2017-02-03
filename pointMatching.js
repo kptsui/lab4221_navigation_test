@@ -2,7 +2,7 @@
 // OUTPUT: predicted x, y, error
 // TODO: match combinition of bids and find closest rssi, output x,y
 function findXY(bid_1, bid_2, bid_3, rssi_1, rssi_2, rssi_3) {
-  console.log(String.format('Matching BID:({0},{1},{2})', bid_1, bid_2, bid_3));
+  // console.log(String.format('Matching BID:({0},{1},{2})', bid_1, bid_2, bid_3));
 
   // obj storing x,y with min. error
   var min_err = {
@@ -21,13 +21,14 @@ function findXY(bid_1, bid_2, bid_3, rssi_1, rssi_2, rssi_3) {
       if(sum_err < min_err.err) {
         min_err.x = row.x;
         min_err.y = row.y;
-        min_err.err = Math.sqrt(sum_err/3); // TODO: Modify the error function
+        min_err.err = sum_err;
       }
     }
   }
-  console.log(String.format("Total matched: {0}", row_matched));
-  console.log("RESULT:");
-  console.log(min_err);
+
+  min_err.err = Math.sqrt(min_err.err/3); // TODO: Modify the error function
+  // console.log(String.format("Total matched: {0}", row_matched));
+  console.log("RESULT:", min_err);
   return min_err;
 }
 
