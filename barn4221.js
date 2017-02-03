@@ -72,9 +72,9 @@ function testPoints(data, i){
       // point.rssi_2 = point.rssi_2 + getRandomInt(-1, 2);
       // point.rssi_3 = point.rssi_3 + getRandomInt(-1, 2);
       /* Use fixed noise offset on RSSI in debug mode, so that error(mismatch) can be replicated */
-      point.rssi_1 = point.rssi_1 + 1;
-      point.rssi_2 = point.rssi_2 + 1;
-      point.rssi_3 = point.rssi_3 + 1;
+      point.rssi_1 = point.rssi_1 + 2;
+      point.rssi_2 = point.rssi_2 + 2;
+      point.rssi_3 = point.rssi_3 + 2;
       console.log("test point: ");
       console.log(point);
 
