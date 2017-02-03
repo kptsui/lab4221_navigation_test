@@ -17,22 +17,27 @@ $(document).ready(function(){
 	map = L.map('mapid', {
 		crs: L.CRS.Simple
 	});
-	
+
 	var bounds = [[0,0], [401,312]]; // [height, width]
 	// add image to map
 	var image = L.imageOverlay('img/4221FloorPlan.png', bounds).addTo(map);
 	map.fitBounds(bounds);
-	
+
 	// set marker
-	L.marker([371, 178], {icon: marker}).addTo(map).bindPopup('You are around here!'); // y, x in pixel
+	//L.marker([371, 178], {icon: marker}).addTo(map).bindPopup('You are around here!'); // y, x in pixel
 	/*var driver = L.latLng([ 378, 178 ]); // y, x
 	marker = L.marker(driver);
 	marker.addTo(map).bindPopup('driver');*/
-	
+
 	// center the view according to the marker
 	// map.setView( [210, 110], 1);
+
+  testPoints(test_data_1);
 });
 
+/*
+Current location point update
+*/
 function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
     // require to include pointMatching.js
     var result = findXY(bid1, bid2, bid3, rssi1, rssi2, rssi3);
@@ -45,4 +50,31 @@ function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
 
 	// center the view according to the marker
 	// map.setView( [y, x], 1);
+}
+
+
+/*
+Testing
+*/
+function testPoints(data){
+  for (var i = 0; i < data.length; i++) {
+    var point = data[i];
+    console.log("test point: ");
+    console.log(point);
+
+    updateMarker(point.bid_1, point.bid_2, point.bid_3,
+    point.rssi_1,
+    point.rssi_2,
+    point.rssi_3);
+
+    console.log("random int: " + getRandomInt(0, 10));
+  }
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
