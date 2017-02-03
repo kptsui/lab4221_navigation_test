@@ -1,9 +1,10 @@
 var map = null;
+var markerIcon = null;
 var marker = null;
 
 $(document).ready(function(){
     // init marker icon
-    marker = L.icon({
+    markerIcon = L.icon({
         iconUrl: 'img/location_indicator.png',
         // no need shadow
         //shadowUrl: 'leaf-shadow.png',
@@ -24,7 +25,9 @@ $(document).ready(function(){
 	map.fitBounds(bounds);
 
 	// set marker
-	//L.marker([371, 178], {icon: marker}).addTo(map).bindPopup('You are around here!'); // y, x in pixel
+	//marker = L.marker([371, 178], {icon: markerIcon});
+  //marker.addTo(map).bindPopup('You are around here!'); // y, x in pixel
+
 	/*var driver = L.latLng([ 378, 178 ]); // y, x
 	marker = L.marker(driver);
 	marker.addTo(map).bindPopup('driver');*/
@@ -32,7 +35,7 @@ $(document).ready(function(){
 	// center the view according to the marker
 	// map.setView( [210, 110], 1);
 
-  testPoints(test_data_1);
+  testPoints(test_data_1, 0);
 });
 
 /*
@@ -43,10 +46,14 @@ function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
     var result = findXY(bid1, bid2, bid3, rssi1, rssi2, rssi3);
 
 	// remove previous marker
-	map.removeLayer(marker);
+  console.log("remove previous marker");
+  if(marker != null){
+    map.removeLayer(marker);
+  }
 
 	// re-print the marker
-	L.marker([result.y, result.x], {icon: marker}).addTo(map).bindPopup('You are around here!'); // y, x in pixel
+	marker = L.marker([result.y, result.x], {icon: markerIcon});
+  marker.addTo(map).bindPopup('You are around here!'); // y, x in pixel
 
 	// center the view according to the marker
 	// map.setView( [y, x], 1);
@@ -56,19 +63,23 @@ function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
 /*
 Testing
 */
-function testPoints(data){
-  for (var i = 0; i < data.length; i++) {
-    var point = data[i];
-    console.log("test point: ");
-    console.log(point);
+// i = start position in data array
+function testPoints(data, i){
+  var t = setTimeout(function(){
+    if(i < data.length){
+      var point = data[i];
+      point.rssi_1 = point.rssi_1 + getRandomInt(-1, 1);
+      point.rssi_2 = point.rssi_2 + getRandomInt(-1, 1);
+      point.rssi_3 = point.rssi_3 + getRandomInt(-1, 1);
+      console.log("test point: ");
+      console.log(point);
 
-    updateMarker(point.bid_1, point.bid_2, point.bid_3,
-    point.rssi_1,
-    point.rssi_2,
-    point.rssi_3);
+      updateMarker(point.bid_1, point.bid_2, point.bid_3,
+      point.rssi_1, point.rssi_2, point.rssi_3);
 
-    console.log("random int: " + getRandomInt(0, 10));
-  }
+      testPoints(data, i + 1);
+    }
+  }, 500);
 }
 
 /**
