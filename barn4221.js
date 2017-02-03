@@ -68,9 +68,13 @@ function testPoints(data, i){
   var t = setTimeout(function(){
     if(i < data.length){
       var point = data[i];
-      point.rssi_1 = point.rssi_1 + getRandomInt(-1, 1);
-      point.rssi_2 = point.rssi_2 + getRandomInt(-1, 1);
-      point.rssi_3 = point.rssi_3 + getRandomInt(-1, 1);
+      // point.rssi_1 = point.rssi_1 + getRandomInt(-1, 2);
+      // point.rssi_2 = point.rssi_2 + getRandomInt(-1, 2);
+      // point.rssi_3 = point.rssi_3 + getRandomInt(-1, 2);
+      /* Use fixed noise offset on RSSI in debug mode, so that error(mismatch) can be replicated */
+      point.rssi_1 = point.rssi_1 + 1;
+      point.rssi_2 = point.rssi_2 + 1;
+      point.rssi_3 = point.rssi_3 + 1;
       console.log("test point: ");
       console.log(point);
 
@@ -88,4 +92,8 @@ function testPoints(data, i){
  */
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function frequencyGreaterThan(freq, limit) {
+  return freq > limit;
 }

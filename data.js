@@ -1530,3 +1530,7 @@ var data =
     "frequency": 10
   }
 ];
+
+// Filter out samples that are not representative
+const FILTER_THRESHOLD = 5;
+var data = data.filter(function(obj) { return obj.frequency > FILTER_THRESHOLD })
