@@ -34,8 +34,6 @@ $(document).ready(function(){
 
 	// center the view according to the marker
 	// map.setView( [210, 110], 1);
-
-  testPoints(test_data_1, 0);
 });
 
 /*
@@ -57,43 +55,4 @@ function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
 
 	// center the view according to the marker
 	// map.setView( [y, x], 1);
-}
-
-
-/*
-Testing
-*/
-// i = start position in data array
-function testPoints(data, i){
-  var t = setTimeout(function(){
-    if(i < data.length){
-      var point = data[i];
-      // point.rssi_1 = point.rssi_1 + getRandomInt(-1, 2);
-      // point.rssi_2 = point.rssi_2 + getRandomInt(-1, 2);
-      // point.rssi_3 = point.rssi_3 + getRandomInt(-1, 2);
-      /* Use fixed noise offset on RSSI in debug mode, so that error(mismatch) can be replicated */
-      point.rssi_1 = point.rssi_1 + 2;
-      point.rssi_2 = point.rssi_2 + 2;
-      point.rssi_3 = point.rssi_3 + 2;
-      console.log("test point: ");
-      console.log(point);
-
-      updateMarker(point.bid_1, point.bid_2, point.bid_3,
-      point.rssi_1, point.rssi_2, point.rssi_3);
-
-      testPoints(data, i + 1);
-    }
-  }, 500);
-}
-
-/**
- * Returns a random integer between min (inclusive) and max (inclusive)
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function frequencyGreaterThan(freq, limit) {
-  return freq > limit;
 }
