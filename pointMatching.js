@@ -1,7 +1,15 @@
 // INPUT: BeaconID_1,2,3 RSSI_1,2,3
 // OUTPUT: predicted x, y, error
 // TODO: match combinition of bids and find closest rssi, output x,y
-function findXY(bid_1, bid_2, bid_3, rssi_1, rssi_2, rssi_3) {
+
+/*input object array = [
+{bid: 1, rssi: -99},
+{bid: 2, rssi: -99},
+{bid: 3, rssi: 0},
+{bid: 4, rssi: 0},
+{bid: 5, rssi: -99}
+];*/
+function findXY(arr) {
   // console.log(String.format('Matching BID:({0},{1},{2})', bid_1, bid_2, bid_3));
 
   // obj storing x,y with min. error
@@ -13,17 +21,17 @@ function findXY(bid_1, bid_2, bid_3, rssi_1, rssi_2, rssi_3) {
   // loop all the data
   for(var i = 0; i < data.length; i++) {
     var row = data[i];
+    var sum_err = 0;
     // match the beacon ids
-    if(row.bid_1 == bid_1 && row.bid_2 == bid_2 && row.bid_3 == bid_3) {
-      row_matched++;
-      var sum_err = 0;
-      sum_err = Math.pow(row.rssi_1 - rssi_1, 2) + Math.pow(row.rssi_2 - rssi_2, 2) + Math.pow(row.rssi_3 - rssi_3, 2);
-      if(sum_err < min_err.err) {
-        min_err.x = row.x;
-        min_err.y = row.y;
-        min_err.err = sum_err;
-      }
+    for(var j = 0; j < arr.length; j++){
+      sum_err += Math.pow(row.beacons[j].rssi - arr[j].rssi, 2);
     }
+    if(sum_err < min_err.err) {
+      min_err.x = row.x;
+      min_err.y = row.y;
+      min_err.err = sum_err;
+    }
+    row_matched++;
   }
 
   min_err.err = Math.sqrt(min_err.err/3); // TODO: Modify the error function
@@ -33,7 +41,7 @@ function findXY(bid_1, bid_2, bid_3, rssi_1, rssi_2, rssi_3) {
 }
 
 function test() {
-  findXY(1,3,4,-23,-43,-44);
+
 }
 
 // Self-defined String.format

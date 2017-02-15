@@ -1,15 +1,31 @@
+/*
+data = [
+{x: 1, y:1, beacons: [{bid: 1, rssi: 0}, {}]},
+];
+*/
 var data =
 [
   {
     "x": 156,
     "y": 22,
-    "bid_1": 1,
-    "bid_2": 2,
-    "bid_3": 3,
-    "rssi_1": -83,
-    "rssi_2": -85,
-    "rssi_3": -78,
-    "frequency": 1
+    "beacons": [
+      {
+        "bid": 1,
+        "rssi": -80
+      },
+      {
+        "bid": 2,
+        "rssi": 0
+      },
+      {
+        "bid": 3,
+        "rssi": 0
+      },
+      {
+        "bid": 4,
+        "rssi": -70
+      }
+    ]
   },
   {
     "x": 156,

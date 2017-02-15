@@ -2,6 +2,10 @@ var map = null;
 var markerIcon = null;
 var marker = null;
 
+const BEACON_SIZE = 6; // must be integer >= 1
+const window_size = 3; // must be integer >= 1
+var windows = []; // windows = [ [{}, {}], [{}, {}], [{}, {}] ];
+
 $(document).ready(function(){
     // init marker icon
     markerIcon = L.icon({
@@ -38,10 +42,29 @@ $(document).ready(function(){
 
 /*
 Current location point update
+input object array = [
+{bid: 1, rssi: -99},
+{bid: 2, rssi: -99},
+{bid: 3, rssi: 0},
+{bid: 4, rssi: 0},
+{bid: 5, rssi: -99}
+];
 */
-function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
-    // require to include pointMatching.js
-    var result = findXY(bid1, bid2, bid3, rssi1, rssi2, rssi3);
+function updateMarker(arr){
+  if(!arr.isArray()){
+    return;
+  }
+
+  window.push(arr);
+
+  if(window.length > window_size){
+    window.shift();
+  }
+
+  var avg_window_data = average_window_data(); // arr [{bid: 1, rssi: 0}, {}]
+
+  // require to include pointMatching.js
+  var result = findXY(avg_window_data);
 
 	// remove previous marker
   console.log("remove previous marker");
@@ -55,4 +78,30 @@ function updateMarker(bid1, bid2, bid3, rssi1, rssi2, rssi3){
 
 	// center the view according to the marker
 	// map.setView( [y, x], 1);
+}
+
+/*
+return average data array = [
+{bid: 1, rssi: -99},
+{bid: 2, rssi: -99},
+{bid: 3, rssi: 0},
+{bid: 4, rssi: 0},
+{bid: 5, rssi: -99}
+];
+*/
+function average_window_data(){
+  var avg = [];
+
+  for(var i = 1; i <= BEACON_SIZE; i++){ // i = Beacon major id
+    avg.push({
+      "bid": i,
+      "rssi": 0
+    });
+    for(var j = 0; j < window.length; j++){
+      avg[i].rssi += window[j][i].rssi;
+    }
+    avg[i].rssi /= window.length;
+  }
+
+  return avg;
 }
