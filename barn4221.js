@@ -3,7 +3,7 @@ var markerIcon = null;
 var marker = null;
 
 const BEACON_SIZE = 6; // must be integer >= 1
-const window_size = 3; // must be integer >= 1
+const window_size = 2; // must be integer >= 1
 var windows = []; // windows = [ [{}, {}], [{}, {}], [{}, {}] ];
 
 $(document).ready(function(){
