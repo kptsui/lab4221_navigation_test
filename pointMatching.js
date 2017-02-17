@@ -26,7 +26,7 @@ console.log("~~~~~~~~~~~~~~~~~~");
   // loop all the data
   for(var i = 0; i < data.length; i++) {
     var row = data[i];
-    var sum_err = Number.MIN_SAFE_INTEGER;
+    var sum_err = 0;
     // match the beacon ids
     for(var j = 0; j < arr.length; j++){
       //sum_err += Math.pow(row.beacons[j].rssi - arr[j].rssi, 2);
