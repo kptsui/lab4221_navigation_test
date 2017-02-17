@@ -51,20 +51,16 @@ input object array = [
 ];
 */
 function updateMarker(arr){
-  if(!arr.isArray()){
+  if(windows.length != window_size){
+    windows.push(arr);
     return;
-  }
-
-  window.push(arr);
-
-  if(window.length > window_size){
-    window.shift();
   }
 
   var avg_window_data = average_window_data(); // arr [{bid: 1, rssi: 0}, {}]
 
   // require to include pointMatching.js
   var result = findXY(avg_window_data);
+  windows = [];
 
 	// remove previous marker
   console.log("remove previous marker");
@@ -92,16 +88,19 @@ return average data array = [
 function average_window_data(){
   var avg = [];
 
-  for(var i = 1; i <= BEACON_SIZE; i++){ // i = Beacon major id
+  for(var i = 0; i < BEACON_SIZE; i++){ // i = Beacon major id
     avg.push({
-      "bid": i,
+      "bid": i + 1,
       "rssi": 0
     });
-    for(var j = 0; j < window.length; j++){
-      avg[i].rssi += window[j][i].rssi;
+    for(var j = 0; j < windows.length; j++){
+      avg[i].rssi += windows[j][i].rssi;
     }
-    avg[i].rssi /= window.length;
+    avg[i].rssi /= windows.length;
   }
+
+  console.log("average_window_data: ");
+  console.log(avg);
 
   return avg;
 }

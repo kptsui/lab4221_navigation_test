@@ -1,4 +1,4 @@
-var test_data = test_data_most_frequent_in_average;
+
 var error = 0;
 
 $(document).ready(function(){
@@ -15,7 +15,7 @@ Testing
 function testPoints(data, i){
   var t = setTimeout(function(){
     if(i < data.length){
-      var arr = data[i];
+      var arr = data[i].beacons;
 
       console.log("test point: ");
       console.log(arr);
@@ -24,7 +24,7 @@ function testPoints(data, i){
 
       testPoints(data, i + 1);
     }
-  }, 500);
+  }, 400);
 }
 
 /**
